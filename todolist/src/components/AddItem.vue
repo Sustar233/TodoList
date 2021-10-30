@@ -8,9 +8,6 @@
   import {nanoid} from 'nanoid'
   export default {
     name: 'AddItem',
-    props: [
-      'addTask'
-    ],
     methods: {
       add(e) {
         // 校验数据
@@ -18,7 +15,7 @@
         // 将用户输入包装成一个task对象
         const taskObj = {id:nanoid(), content:e.target.value, completed: false};
         // 通知App组件去添加一个task对象
-        this.addTask(taskObj);
+        this.$emit('receiveAddTask', taskObj);
         // 清空输出
         e.target.value = '';
       }

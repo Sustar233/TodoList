@@ -3,12 +3,12 @@
     <div id="ap">
         <main>
             <div class="header">
-              <AddItem :addTask="addTask"/>
+              <AddItem @receiveAddTask="addTask"/>
               <NowT/>
             </div>
             <TaskList :tasks="tasks" :taskComplete="taskComplete" :taskDelete="taskDelete" />
             <div class="footer">
-              <TaskTools :tasks="tasks" :checkAll="checkAll" :clearAllTask="clearAllTask"/>
+              <TaskTools :tasks="tasks" @receiveCheckAll="checkAll" @clearAllTask="clearAllTask"/>
             </div>
         </main>
     </div>
@@ -28,41 +28,46 @@ export default {
   components: {AddItem, TaskList, TaskTools, NowT},
   data() {
     return {
-      tasks: [
-        {id:'001', content:'吃饭', completed: false},
-        {id:'002', content:'睡觉', completed: true},
-        {id:'003', content:'打游戏！', completed: false}
-      ]
+      tasks: JSON.parse(localStorage.getItem('tasks')) || []
     }
   },
   methods: {
-      addTask(taskObj) {
-        // 将新的task对象假如tasks数组
-        this.tasks.unshift(taskObj);
+    addTask(taskObj) {
+      // 将新的task对象假如tasks数组
+      this.tasks.unshift(taskObj);
+    },
+    taskComplete(taskObj) {
+      // 被点击的task对象completed值取反
+      taskObj.completed = !taskObj.completed;
+    },
+    taskDelete(taskObj) {
+      // 遍历tasks找到应该被删除的task，返回删除后的新数组
+      this.tasks = this.tasks.filter(function(i) {
+        return taskObj !== i
+      })
+    },
+    checkAll(bool) {
+      // 修改所有task的完成状态为bool
+      this.tasks.forEach((item)=>{
+        item.completed = bool;
+      })
+    },
+    clearAllTask() {
+      // 清除所有已经完成的任务
+      this.tasks = this.tasks.filter(function(task) {
+        return !task.completed
+      })
+    },
+  },
+  watch: {
+    tasks: {
+      handler(value) {
+        // 存储到tasks字段
+        localStorage.setItem('tasks', JSON.stringify(value));
       },
-      taskComplete(taskObj) {
-        // 被点击的task对象completed值取反
-        taskObj.completed = !taskObj.completed;
-      },
-      taskDelete(taskObj) {
-        // 遍历tasks找到应该被删除的task，返回删除后的新数组
-        this.tasks = this.tasks.filter(function(i) {
-          return taskObj !== i
-        })
-      },
-      checkAll(bool) {
-        // 修改所有task的完成状态为bool
-        this.tasks.forEach((item)=>{
-          item.completed = bool;
-        })
-      },
-      clearAllTask() {
-        // 清除所有已经完成的任务
-        this.tasks = this.tasks.filter(function(task) {
-          return !task.completed
-        })
-      }
-  }
+      deep: true
+    }
+  },
 }
 </script>
 

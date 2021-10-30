@@ -10,11 +10,11 @@
 </template>
 
 <script>
-export default {
-  name: 'TaskItem',
-  // 当前task对象，调用task完成的父组件方法，调用task删除的父组件方法
-  props: ['task', 'taskComplete', 'taskDelete'],
-}
+    export default {
+    name: 'TaskItem',
+    // 当前task对象，调用task完成的父组件方法，调用task删除的父组件方法
+    props: ['task', 'taskComplete', 'taskDelete'],
+    }
 </script>
 
 <style scoped>

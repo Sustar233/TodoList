@@ -9,7 +9,7 @@
 <script>
 export default {
   name: 'TaskTools',
-  props: ["tasks", "checkAll", "clearAllTask"],
+  props: ["tasks"],
   data() {
     return {
       isCheckAll: false
@@ -19,9 +19,12 @@ export default {
     // 点击全选时，对全选值取反
     handleCheckAll() {
       this.isCheckAll = !this.isCheckAll;
-      this.checkAll(this.isCheckAll);
+      this.$emit('receiveCheckAll', this.isCheckAll);
     },
     // 点击按钮时，清除所有已完成的任务
+    clearAllTask() {
+      this.$emit('clearAllTask')
+    }
   },
   computed: {
     // 遍历tasks，统计completed任务的数量
