@@ -6,7 +6,7 @@
               <AddItem @receiveAddTask="addTask"/>
               <NowT/>
             </div>
-            <TaskList :tasks="tasks" :taskComplete="taskComplete" :taskDelete="taskDelete" />
+            <TaskList :tasks="tasks" :taskComplete="taskComplete" :taskDelete="taskDelete" :changeTask="changeTask" />
             <div class="footer">
               <TaskTools :tasks="tasks" @receiveCheckAll="checkAll" @clearAllTask="clearAllTask"/>
             </div>
@@ -45,6 +45,10 @@ export default {
       this.tasks = this.tasks.filter(function(i) {
         return taskObj !== i
       })
+    },
+    // 修改被双击对象的content值
+    changeTask(taskObj, newContent) {
+      taskObj.content = newContent;
     },
     checkAll(bool) {
       // 修改所有task的完成状态为bool

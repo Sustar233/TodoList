@@ -1,7 +1,14 @@
 <template>
   <div id="task_list">
       <ul class="tsklist_underway">
-        <TaskItem v-for="taskObj in tasks" :key="taskObj.id" :taskComplete="taskComplete" :task="taskObj" :taskDelete="taskDelete"/>
+        <TaskItem 
+          v-for="taskObj in tasks"
+          :key="taskObj.id"
+          :taskComplete="taskComplete"
+          :task="taskObj"
+          :taskDelete="taskDelete"
+          :changeTask="changeTask"
+        />
       </ul>
   </div>
 </template>
@@ -12,7 +19,7 @@ import TaskItem from './TaskItem.vue'
 export default {
   name: 'TaskList',
   components: {TaskItem},
-  props: ['tasks', 'taskComplete', 'taskDelete']
+  props: ['tasks', 'taskComplete', 'taskDelete', 'changeTask']
 }
 </script>
 
